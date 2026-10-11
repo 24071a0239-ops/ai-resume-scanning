@@ -8,72 +8,191 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
 st.set_page_config(
-    page_title="AI Resume Screening",
-    page_icon="📄",
+    page_title="TalentSpark | AI Resume Screening",
+    page_icon="💜",
     layout="wide"
 )
 
 st.markdown("""
 <style>
-.block-container {padding-top: 2rem; max-width: 1200px;}
-.hero {
-    padding: 1.5rem;
-    border-radius: 16px;
-    background: linear-gradient(120deg, #eef2ff, #f0fdfa);
-    margin-bottom: 1.5rem;
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap');
+
+:root {
+    --purple: #7c3aed;
+    --pink: #ec4899;
+    --indigo: #4f46e5;
+    --ink: #211a39;
+    --muted: #77738b;
 }
-.hero h1 {color: #172554; margin-bottom: .4rem;}
-.hero p {color: #475569; font-size: 1.05rem;}
+
+.stApp {
+    background: linear-gradient(145deg, #faf7ff 0%, #f4f0ff 48%, #fff7fc 100%);
+    font-family: 'DM Sans', sans-serif;
+}
+.block-container {
+    max-width: 1180px;
+    padding-top: 2rem;
+    padding-bottom: 3rem;
+}
+h1, h2, h3 {
+    font-family: 'Manrope', sans-serif !important;
+    color: var(--ink);
+}
+.hero {
+    background: linear-gradient(120deg, #6d28d9 0%, #8b5cf6 48%, #ec4899 100%);
+    padding: 2.2rem;
+    border-radius: 25px;
+    color: white;
+    margin-bottom: 1.6rem;
+    box-shadow: 0 14px 35px rgba(124, 58, 237, .20);
+}
+.hero h1 {
+    color: white !important;
+    font-size: 2.35rem !important;
+    font-weight: 800 !important;
+    margin: .5rem 0;
+}
+.hero p {
+    color: #f4eaff !important;
+    font-size: 1.05rem;
+    max-width: 720px;
+}
+.eyebrow {
+    color: #fce7f3;
+    font-size: .78rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+}
+.panel {
+    background: rgba(255,255,255,.88);
+    border: 1px solid #ebe4fa;
+    border-radius: 20px;
+    padding: 1.3rem;
+    margin: .7rem 0 1.1rem 0;
+}
 div[data-testid="stMetric"] {
     background: white;
-    border: 1px solid #e2e8f0;
-    padding: 1rem;
+    border: 1px solid #ebe4fa;
+    padding: 1.1rem;
+    border-radius: 17px;
+    box-shadow: 0 5px 18px rgba(65, 35, 115, .05);
+}
+div[data-testid="stMetricLabel"] {
+    color: #77738b;
+}
+div[data-testid="stMetricValue"] {
+    color: #6d28d9;
+    font-weight: 800;
+}
+.stButton > button {
+    background: linear-gradient(100deg, #7c3aed, #db2777);
+    color: white;
+    border: 0;
     border-radius: 12px;
+    padding: .65rem 1rem;
+    font-weight: 700;
+}
+.stButton > button:hover {
+    color: white;
+    border: 0;
+    filter: brightness(1.06);
+}
+div[data-testid="stFileUploader"] {
+    background: #fff;
+    border: 1px dashed #b9a1f8;
+    border-radius: 16px;
+    padding: 1rem;
+}
+div[data-testid="stDataFrame"] {
+    border: 1px solid #ebe4fa;
+    border-radius: 14px;
+    overflow: hidden;
+}
+div[data-testid="stExpander"] {
+    background: rgba(255,255,255,.9);
+    border: 1px solid #e9ddff;
+    border-radius: 14px;
+}
+.stProgress > div > div > div > div {
+    background: linear-gradient(90deg, #8b5cf6, #ec4899);
+}
+section[data-testid="stSidebar"] {
+    background: linear-gradient(180deg, #f0eaff, #fff5fb);
+}
+.footer {
+    text-align: center;
+    color: #89829c;
+    font-size: .85rem;
+    padding-top: 1.5rem;
 }
 </style>
 """, unsafe_allow_html=True)
 
 st.markdown("""
 <div class="hero">
-<h1>📄 AI Resume Screening System</h1>
-<p>Compare resumes with job requirements, review skill matches,
-and organize candidates for further evaluation.</p>
+    <div class="eyebrow">✦ SMART RECRUITMENT WORKSPACE</div>
+    <h1>Find your next great hire.</h1>
+    <p>Meet TalentSpark — a simple AI-assisted workspace to compare resumes,
+    explore skill matches, and organize candidates against a job description.</p>
+    <span>💜 Resume insights &nbsp; ✦ Skill matching &nbsp; 🚀 Candidate ranking</span>
 </div>
 """, unsafe_allow_html=True)
 
-st.subheader("1. Job requirements")
+with st.sidebar:
+    st.markdown("## 💜 TalentSpark")
+    st.caption("AI Resume Screening")
+    st.divider()
+    st.markdown("### How it works")
+    st.write("**01** · Add the job description")
+    st.write("**02** · List required skills")
+    st.write("**03** · Upload PDF resumes")
+    st.write("**04** · Review candidate results")
+    st.divider()
+    st.caption(
+        "Decision-support tool only. Always review resumes fairly "
+        "and make hiring decisions with human judgment."
+    )
 
-job_description = st.text_area(
-    "Enter the job description",
-    height=160,
-    placeholder="Describe the role, qualifications, and required skills..."
-)
+st.markdown("### ✨ Let's find the right match")
+st.write("Start with the role details, then upload resumes to compare.")
 
-skills_text = st.text_input(
-    "Required skills (comma-separated)",
-    value="Python, Machine Learning, SQL, Data Analysis, problem-solving"
-)
+with st.container(border=True):
+    st.markdown("#### 01 · Job description")
+    job_description = st.text_area(
+        "Describe the role and qualifications",
+        height=150,
+        placeholder="Example: We need a candidate with Python, Machine Learning, SQL, Data Analysis, and problem-solving skills.",
+        label_visibility="collapsed"
+    )
 
-st.subheader("2. Upload resumes")
+    st.markdown("#### 02 · Required skills")
+    skills_text = st.text_input(
+        "Separate skills with commas",
+        value="Python, Machine Learning, SQL, Data Analysis, problem-solving",
+        help="These phrases are checked in each resume.",
+        label_visibility="collapsed"
+    )
 
-uploaded_files = st.file_uploader(
-    "Select PDF resumes",
-    type=["pdf"],
-    accept_multiple_files=True,
-    help="Text-based PDFs work best. Scanned PDFs may need OCR."
-)
+with st.container(border=True):
+    st.markdown("#### 03 · Upload candidate resumes")
+    uploaded_files = st.file_uploader(
+        "Choose one or more PDF files",
+        type=["pdf"],
+        accept_multiple_files=True,
+        help="Text-based PDFs work best. Scanned PDFs may need OCR."
+    )
+    if uploaded_files:
+        st.caption(f"📎 {len(uploaded_files)} PDF file(s) selected")
 
 
 def extract_pdf_text(uploaded_file):
     reader = PdfReader(BytesIO(uploaded_file.getvalue()))
-
     if reader.is_encrypted:
         try:
             if not reader.decrypt(""):
-                raise ValueError("This PDF is password-protected.")
+                raise ValueError("PDF is password-protected.")
         except Exception as exc:
-            raise ValueError("This PDF is password-protected.") from exc
-
+            raise ValueError("PDF is password-protected.") from exc
     return "\n".join(page.extract_text() or "" for page in reader.pages)
 
 
@@ -82,58 +201,48 @@ def normalize(text):
 
 
 def skill_is_present(skill, resume_text):
-    # Match whole words/phrases instead of partial words.
-    # For example, "SQL" won't match inside "NoSQL".
     pattern = r"(?<!\w)" + re.escape(skill.lower()) + r"(?!\w)"
     return re.search(pattern, resume_text, flags=re.IGNORECASE) is not None
 
 
-if st.button("🔍 Screen Resumes", type="primary", use_container_width=True):
+if st.button("✨ Analyze & Rank Resumes", type="primary", use_container_width=True):
     if not job_description.strip():
-        st.warning("Please enter a job description.")
+        st.warning("Please enter a job description first.")
     elif not uploaded_files:
         st.warning("Please upload at least one PDF resume.")
     else:
         skills = list(dict.fromkeys(
-            skill.strip()
-            for skill in skills_text.split(",")
-            if skill.strip()
+            skill.strip() for skill in skills_text.split(",") if skill.strip()
         ))
-
         candidates = []
         errors = []
 
-        with st.spinner("Reading and comparing resumes..."):
+        with st.spinner("✨ Reading resumes and comparing details..."):
             for pdf in uploaded_files:
                 try:
-                    resume_text = extract_pdf_text(pdf)
-
-                    if not resume_text.strip():
+                    text = extract_pdf_text(pdf)
+                    if not text.strip():
                         errors.append(
-                            f"{pdf.name}: no extractable text found. "
-                            "If this is a scanned PDF, OCR may be needed."
+                            f"{pdf.name}: no extractable text. "
+                            "Scanned PDFs may need OCR."
                         )
                         continue
-
                     candidates.append({
                         "Candidate": pdf.name,
-                        "Text": resume_text,
-                        "Normalized": normalize(resume_text)
+                        "Text": text
                     })
-
                 except Exception as exc:
-                    errors.append(f"{pdf.name}: could not read this PDF ({exc}).")
+                    errors.append(f"{pdf.name}: could not read PDF ({exc}).")
 
             for message in errors:
                 st.warning(message)
 
             if not candidates:
-                st.error("No readable resumes were found. Check the PDF files.")
+                st.error("No readable resumes were found. Please check the PDFs.")
             else:
                 documents = [job_description] + [
                     candidate["Text"] for candidate in candidates
                 ]
-
                 try:
                     vectorizer = TfidfVectorizer(
                         stop_words="english",
@@ -146,12 +255,11 @@ if st.button("🔍 Screen Resumes", type="primary", use_container_width=True):
                 except ValueError:
                     scores = [0.0] * len(candidates)
                     st.warning(
-                        "Not enough usable text to calculate similarity. "
-                        "Similarity scores have been set to 0%."
+                        "Not enough usable text to calculate similarity; "
+                        "scores are shown as 0%."
                     )
 
                 results = []
-
                 for candidate, score in zip(candidates, scores):
                     matched = [
                         skill for skill in skills
@@ -161,92 +269,73 @@ if st.button("🔍 Screen Resumes", type="primary", use_container_width=True):
                         skill for skill in skills
                         if not skill_is_present(skill, candidate["Text"])
                     ]
-
-                    skill_percent = (
+                    skill_pct = (
                         round(len(matched) / len(skills) * 100, 2)
                         if skills else 0.0
                     )
-
                     results.append({
                         "Candidate": candidate["Candidate"],
                         "Similarity Score (%)": round(float(score) * 100, 2),
                         "Skills Matched": f"{len(matched)}/{len(skills)}",
-                        "Skill Match (%)": skill_percent,
+                        "Skill Match (%)": skill_pct,
                         "Matched Skills": ", ".join(matched) or "None",
                         "Missing Skills": ", ".join(missing) or "None"
                     })
 
-                results_df = pd.DataFrame(results)
-                results_df = results_df.sort_values(
+                df = pd.DataFrame(results).sort_values(
                     "Similarity Score (%)", ascending=False
                 ).reset_index(drop=True)
-                results_df.insert(0, "Rank", range(1, len(results_df) + 1))
+                df.insert(0, "Rank", range(1, len(df) + 1))
 
-                st.success(
-                    f"Screening complete: {len(results_df)} readable "
-                    f"resume(s) processed."
-                )
+                st.markdown("---")
+                st.markdown("### 📊 Your screening snapshot")
+                c1, c2, c3 = st.columns(3)
+                c1.metric("📄 Resumes analyzed", len(df))
+                c2.metric("🏆 Top similarity", f"{df.iloc[0]['Similarity Score (%)']:.2f}%")
+                c3.metric("✨ Average similarity", f"{df['Similarity Score (%)'].mean():.2f}%")
 
-                st.subheader("3. Screening overview")
-                col1, col2, col3 = st.columns(3)
-                col1.metric("Resumes analyzed", len(results_df))
-                col2.metric(
-                    "Top similarity score",
-                    f"{results_df.iloc[0]['Similarity Score (%)']:.2f}%"
-                )
-                col3.metric(
-                    "Average similarity",
-                    f"{results_df['Similarity Score (%)'].mean():.2f}%"
-                )
-
-                st.subheader("4. Candidate ranking")
+                st.markdown("### 🏅 Candidate leaderboard")
+                st.caption("Ranked by textual similarity to the job description.")
                 st.bar_chart(
-                    results_df.set_index("Candidate")[["Similarity Score (%)"]],
+                    df.set_index("Candidate")[["Similarity Score (%)"]],
                     horizontal=True
                 )
 
-                st.subheader("5. Detailed results")
-                st.dataframe(results_df, use_container_width=True, hide_index=True)
+                st.markdown("### 🧾 Candidate report")
+                st.dataframe(df, use_container_width=True, hide_index=True)
 
-                st.subheader("6. Skill match details")
-                for _, row in results_df.iterrows():
+                st.markdown("### 💎 Skill match explorer")
+                for _, row in df.iterrows():
                     with st.expander(
-                        f"Rank {row['Rank']} — {row['Candidate']}"
+                        f"#{row['Rank']}  ·  {row['Candidate']}  ·  "
+                        f"{row['Skill Match (%)']:.0f}% skill match"
                     ):
-                        st.write(
-                            f"**Text similarity:** "
-                            f"{row['Similarity Score (%)']:.2f}%"
-                        )
-                        st.write(
-                            f"**Required skills matched:** "
-                            f"{row['Skills Matched']}"
-                        )
-                        st.write(
-                            f"**Skill match percentage:** "
-                            f"{row['Skill Match (%)']:.2f}%"
-                        )
-                        st.progress(
-                            int(row["Skill Match (%)"]) / 100
-                        )
-                        st.write(f"**Matched:** {row['Matched Skills']}")
-                        st.write(f"**Missing:** {row['Missing Skills']}")
+                        left, right = st.columns(2)
+                        left.metric("Text similarity", f"{row['Similarity Score (%)']:.2f}%")
+                        right.metric("Required skills matched", row["Skills Matched"])
+                        st.progress(int(row["Skill Match (%)"]) / 100)
+                        st.markdown("**🟣 Matched skills**")
+                        st.write(row["Matched Skills"])
+                        st.markdown("**🩷 Skills to review**")
+                        st.write(row["Missing Skills"])
 
-                csv_data = results_df.to_csv(index=False).encode("utf-8")
+                csv_data = df.to_csv(index=False).encode("utf-8")
                 st.download_button(
-                    "⬇️ Download full results (CSV)",
+                    "⬇️ Download candidate report (CSV)",
                     data=csv_data,
-                    file_name="resume_screening_results.csv",
+                    file_name="talentspark_screening_results.csv",
                     mime="text/csv"
                 )
 
                 st.info(
-                    "Important: Similarity and skill-match percentages are "
-                    "screening aids, not measures of overall candidate ability. "
-                    "Skill checks use exact phrases and may miss equivalent "
-                    "skills or alternative wording. Review resumes manually."
+                    "Similarity scores measure textual overlap, not overall "
+                    "candidate ability. Skill checks use exact phrases and may "
+                    "miss equivalent wording. Review all candidates fairly; "
+                    "do not use this tool as the sole basis for hiring."
                 )
 
-st.caption(
-    "AI Resume Screening System • Decision-support tool, not an automated "
-    "hiring decision"
-)
+st.markdown("""
+<div class="footer">
+    💜 TalentSpark · AI-assisted resume screening · Built for human-led decisions
+</div>
+""", unsafe_allow_html=True)
