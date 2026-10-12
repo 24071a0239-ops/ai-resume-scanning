@@ -200,9 +200,27 @@ def normalize(text):
     return re.sub(r"\s+", " ", text.lower()).strip()
 
 
+
+SKILL_ALIASES = {
+    "machine learning": ["machine learning", "ml"],
+    "data analysis": ["data analysis", "data analytics"],
+    "sql": ["sql", "structured query language"],
+    "scikit-learn": ["scikit-learn", "sklearn"],
+    "python": ["python"],
+    "problem-solving": ["problem-solving", "problem solving"],
+}
+
+
 def skill_is_present(skill, resume_text):
-    pattern = r"(?<!\w)" + re.escape(skill.lower()) + r"(?!\w)"
-    return re.search(pattern, resume_text, flags=re.IGNORECASE) is not None
+    aliases = SKILL_ALIASES.get(skill.lower(), [skill])
+
+    for alias in aliases:
+        pattern = r"(?<!\w)" + re.escape(alias.lower()) + r"(?!\w)"
+        if re.search(pattern, resume_text, flags=re.IGNORECASE):
+            return True
+
+    return False
+
 
 
 if st.button("✨ Analyze & Rank Resumes", type="primary", use_container_width=True):
